@@ -44,14 +44,14 @@ class Parser():
     def parse(self, text):
         events = []
         
-        soup = BeautifulSoup(text, 'html.parser')
+        soup = BeautifulSoup(text, "html.parser")
         
         table = self._get_table(soup)
-        rows = table.find_all('tr')
+        rows = table.find_all("tr")
+        rows = rows[1:]  # remove header
         i = 0
         for row in rows:
-            print(i)
-            event = row.find_all('views-field views-field-field-date-time')
+            event = row.find_all("td")
             date = event[1].text.strip()
             time = event[2].text.strip()
             vessel = event[3].text.strip()
@@ -61,7 +61,7 @@ class Parser():
         return events
     
     def _get_table(self, soup):
-        return soup.find('table', class_='views-table')
+        return soup.find("table", class_="views-table")
     
 
 class LiftEvent():
@@ -69,8 +69,11 @@ class LiftEvent():
         self.date = date
         self.time = time
         self.vessel = vessel
+    
+    def __str__(self):
+        return f"Date: {self.date} | Time: {self.time} | Vessel: {self.vessel}"
         
 scraper = Scraper()
 parser = Parser()
 response = scraper.scrape()
-#events = parser.parse(response)
+events = parser.parse(response)
