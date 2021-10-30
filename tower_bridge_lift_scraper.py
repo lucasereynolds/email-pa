@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 class Scraper():
+    
     TARGET_URL = "https://www.towerbridge.org.uk/lift-times"
     TIMEOUT = 5
     HEADERS = {
@@ -38,10 +39,14 @@ class Scraper():
 
 
 class Parser():
+    
+    
     def __init__(self):
+        """Construct an empty Parser object."""
         pass
         
     def parse(self, text):
+        """Parse HTML and return list of bridge lift events."""
         events = []
         
         soup = BeautifulSoup(text, "html.parser")
@@ -65,12 +70,15 @@ class Parser():
     
 
 class LiftEvent():
+    
     def __init__(self, date, time, vessel):
+        """Construct LiftEvent object."""
         self.date = date
         self.time = time
         self.vessel = vessel
     
     def __str__(self):
+        """Return nice string representation of LiftEvent object."""
         return f"Date: {self.date} | Time: {self.time} | Vessel: {self.vessel}"
         
 scraper = Scraper()
