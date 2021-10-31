@@ -3,8 +3,9 @@ Created on Mon Oct 25 21:04:38 2021
 
 @author: LReynolds
 """
-
+import datetime
 import requests
+
 from bs4 import BeautifulSoup
 
 class Scraper():
@@ -51,25 +52,34 @@ class Parser():
         
         soup = BeautifulSoup(text, "html.parser")
         
+        # To filter out events more than one week ahead
+        cur_date = datetime.date.today() + datetime.timedelta(days=6)
+        
         table = self._get_table(soup)
         rows = table.find_all("tr")
         rows = rows[1:]  # remove header
-        i = 0
         for row in rows:
             event = row.find_all("td")
             date = event[1].text.strip()
             time = event[2].text.strip()
             vessel = event[3].text.strip()
-            events.append(LiftEvent(date, time, vessel))
-            i = i+1
+            if self.to_datetime(date) < cur_date:  # only show for this week
+                events.append(LiftEvent(date, time, vessel))
     
         return events
     
     def _get_table(self, soup):
         return soup.find("table", class_="views-table")
     
+    @staticmethod
+    def to_datetime(date_string):
+        """Aux function to convert date as string into datetime object."""
+        date_object = datetime.datetime.strptime(date_string, "%d %b %Y").date()
+        return date_object
+    
 
 class LiftEvent():
+    """Class to store informationa about each bridge lift event."""
     
     def __init__(self, date, time, vessel):
         """Construct LiftEvent object."""
@@ -77,11 +87,12 @@ class LiftEvent():
         self.time = time
         self.vessel = vessel
     
-    def __str__(self):
+    def __repr__(self):
         """Return nice string representation of LiftEvent object."""
         return f"Date: {self.date} | Time: {self.time} | Vessel: {self.vessel}"
-        
-scraper = Scraper()
-parser = Parser()
-response = scraper.scrape()
-events = parser.parse(response)
+ 
+if __name__ == "__main__":       
+    scraper = Scraper()
+    parser = Parser()
+    response = scraper.scrape()
+    events = parser.parse(response)

@@ -1,7 +1,8 @@
 Dear $PERSON_NAME,
 
-This is a test message!
-Enjoy coding!
+Good Morning! 
+Here are the lift times for the next week:
+$LIFT_EVENTS
 
 Yours, 
 
