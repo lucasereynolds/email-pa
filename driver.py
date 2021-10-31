@@ -82,7 +82,7 @@ def get_login_details():
 
 if __name__ == "__main__":
     # Create objects
-    scraper = Scraper()
+    scraper = Scraper("https://www.towerbridge.org.uk/lift-times")
     parser = Parser()
     email_bot = EmailBot()
     
