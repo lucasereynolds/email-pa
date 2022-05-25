@@ -1,1 +1,6 @@
+# Environment
+venv/
+
+__pycache__
+
 credentials.txt

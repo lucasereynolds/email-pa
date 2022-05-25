@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Oct 30 09:56:29 2021
-
-@author: LReynolds
-"""
 from string import Template
 import smtplib
 

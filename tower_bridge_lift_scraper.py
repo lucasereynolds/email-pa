@@ -1,8 +1,3 @@
-"""
-Created on Mon Oct 25 21:04:38 2021
-
-@author: LReynolds
-"""
 import datetime
 import requests
 import logging
